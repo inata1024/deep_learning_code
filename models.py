@@ -3,9 +3,9 @@ import math
 import torch
 import torch.nn as nn
 
-from .feed_forward import FeedForward
-from .mha import MultiHeadAttention
-from .positional_encoding import get_positional_encoding
+from feed_forward import FeedForward
+from mha import MultiHeadAttention
+from positional_encoding import get_positional_encoding
 
 import copy
 
@@ -32,7 +32,7 @@ class EmbeddingsWitLearnedPositionalEncoding(nn.Module):
 
 
     def forward(self, x: torch.Tensor):
-        pe = self.positional_encodings[:x.shape[0]].requires_grad_(False)
+        pe = self.positional_encodings[:x.shape[0]]
         return self.linear(x) * math.sqrt(self.d_model) + pe
 
 
@@ -74,7 +74,7 @@ class TransformerLayer(nn.Module):
         if self.is_save_ff_input:
             self.ff_input = z.clone()
         ff = self.feed_forward(z)
-        x = x + self.dropout(x)
+        x = x + self.dropout(ff)
 
         return x        
     

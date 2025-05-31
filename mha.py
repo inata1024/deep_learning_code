@@ -63,7 +63,7 @@ class MultiHeadAttention(nn.Module):
                 value: torch.Tensor,
                 mask: Optional[torch.Tensor] = None):
         
-        seq_len, batch_size, _ = query.size
+        seq_len, batch_size, _ = query.shape
 
         if mask is not None:
             mask = self.prepare_mask(mask, query.shape, key.shape)
